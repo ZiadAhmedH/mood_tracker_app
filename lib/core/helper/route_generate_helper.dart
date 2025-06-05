@@ -1,0 +1,46 @@
+
+import 'package:flutter/material.dart';
+import 'package:moodtracker_app/features/profile/presentation/profile_view.dart';
+import 'package:moodtracker_app/features/splash/presentation/splash_view.dart';
+import 'package:moodtracker_app/features/auth/presentation/login_view.dart';
+import 'package:moodtracker_app/features/auth/presentation/sign_up_view.dart';
+import 'package:moodtracker_app/features/onBoarding/onboarding_screen1.dart';
+import 'package:moodtracker_app/features/home/Presentation/main_view.dart';
+Route<dynamic> onGenerateRoute(RouteSettings settings){
+
+  switch(settings.name){
+    
+    case SplashView.routeName:
+      return MaterialPageRoute(builder: (context) => SplashView(),);
+
+    case OnboardingScreen.routeName:
+      return PageRouteBuilder(
+        pageBuilder: (_, animation, __) => const OnboardingScreen(),
+        transitionsBuilder: (_, animation, __, child) {
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOut;
+          var tween = Tween(begin: begin, end: end)
+              .chain(CurveTween(curve: curve));
+          return SlideTransition(position: animation.drive(tween), child: child);
+        },
+      );
+    case SignUpView.routeName:
+      return MaterialPageRoute(builder: (context) => SignUpView(),);  
+    case LoginView.routeName:
+      return MaterialPageRoute(builder: (context) => LoginView(),);  
+
+    case MainView.routeName:
+      return MaterialPageRoute(builder: (context) => const MainView(),);
+
+    case ProfileView.routeName:
+      return MaterialPageRoute(builder: (context) => const ProfileView(),);
+      
+        
+      default:
+      return MaterialPageRoute(builder: (context) => const Scaffold(
+        body: Center(child: Text('No route defined')),
+      ));
+    
+  } 
+}
