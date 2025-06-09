@@ -1,5 +1,17 @@
-import 'package:moodtracker_app/features/auth/data/datasource/auth_local_data_source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+abstract class AuthLocalDataSource {
+  Future<void> cacheUserData({
+    required String id,
+    required String fullName,
+    required String email,
+    required String createdAt,
+  });
+
+  Future<Map<String, String>?> getCachedUserData();
+
+  Future<void> clearUserData();
+}
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   final SharedPreferences prefs;
@@ -12,16 +24,30 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   static const String _keyCreatedAt = 'USER_CREATED_AT';
 
   @override
-  Future<void> cacheUserData({
+  Future<bool> cacheUserData({
     required String id,
     required String fullName,
     required String email,
     required String createdAt,
   }) async {
-    await prefs.setString(_keyId, id);
-    await prefs.setString(_keyName, fullName);
-    await prefs.setString(_keyEmail, email);
-    await prefs.setString(_keyCreatedAt, createdAt);
+    print(fullName == 'null' ? 'Full name is null!' : 'Full name is: $fullName');
+
+    final idSuccess = await prefs.setString(_keyId, id);
+    final nameSuccess = await prefs.setString(_keyName, fullName);
+    final emailSuccess = await prefs.setString(_keyEmail, email);
+    final createdAtSuccess = await prefs.setString(_keyCreatedAt, createdAt);
+
+    print('''[CACHE USER DATA]
+→ Set USER_ID: $idSuccess
+→ Set USER_NAME: $nameSuccess
+→ Set USER_EMAIL: $emailSuccess
+→ Set USER_CREATED_AT: $createdAtSuccess
+→ Stored fullName: "$fullName"
+→ Reading back for verification...
+→ USER_NAME readback: "${prefs.getString(_keyName)}"
+''');
+
+    return idSuccess && nameSuccess && emailSuccess && createdAtSuccess;
   }
 
   @override
@@ -31,6 +57,14 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     final email = prefs.getString(_keyEmail);
     final createdAt = prefs.getString(_keyCreatedAt);
 
+    print('''
+[GET CACHED USER DATA]
+→ USER_ID: $id
+→ USER_NAME: "$name"
+→ USER_EMAIL: $email
+→ USER_CREATED_AT: $createdAt
+''');
+
     if (id != null && name != null && email != null && createdAt != null) {
       return {
         'id': id,
@@ -39,6 +73,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
         'createdAt': createdAt,
       };
     }
+
     return null;
   }
 
@@ -48,5 +83,8 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     await prefs.remove(_keyName);
     await prefs.remove(_keyEmail);
     await prefs.remove(_keyCreatedAt);
+    print(
+      '[CLEAR USER DATA] All user-related keys removed from SharedPreferences.',
+    );
   }
 }

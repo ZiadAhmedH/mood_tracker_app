@@ -14,6 +14,7 @@ class ProfileBodyView extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           } else if (state is ProfileLoaded) {
             final user = state.user;
+            print( 'user profile loaded: ${user.fullName}, ${user.email}');
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Column(
@@ -29,8 +30,8 @@ class ProfileBodyView extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    user.fullName!,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    user.fullName ?? 'User Name',
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold , color: Colors.black),
                   ),
                   Text(user.email, style: TextStyle(color: Colors.grey[700])),
                   const SizedBox(height: 16),

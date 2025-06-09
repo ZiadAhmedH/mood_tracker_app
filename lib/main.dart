@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:moodtracker_app/core/get_it.dart' as di;
-import 'package:moodtracker_app/core/helper/route_generate_helper';
+import 'package:moodtracker_app/core/helper/route_generate_helper.dart';
 import 'package:moodtracker_app/core/helper/shared_prefrence.dart';
 import 'package:moodtracker_app/features/splash/presentation/splash_view.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

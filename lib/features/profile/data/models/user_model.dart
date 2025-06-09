@@ -1,28 +1,21 @@
-import '../../domain/entities/user.dart';
+import 'package:moodtracker_app/features/profile/domain/entities/user.dart';
 
 class UserModel extends User {
-  const UserModel({
+  UserModel({
     required super.id,
     required super.fullName,
     required super.email,
     required super.createdAt,
+    required super.avatarUrl,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
-      fullName: json['fullName'],
+      fullName: json['fullName'] ?? '',
       email: json['email'],
       createdAt: json['createdAt'],
+      avatarUrl: json['avatarUrl'] ?? '',
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'fullName': fullName,
-      'email': email,
-      'createdAt': createdAt,
-    };
   }
 }
