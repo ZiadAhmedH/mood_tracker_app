@@ -50,7 +50,7 @@ if (username == null || username.isEmpty) {
   username = await _getUsernameFromDatabase(user.id);
 }
 
-if (username == null || username.isEmpty) {
+if (username.isEmpty) {
   throw Exception('Failed to fetch user full name from Supabase.');
 }
 
@@ -102,7 +102,7 @@ await localDataSource.cacheUserData(
 
   print('[DB FETCH] Full name: ${response!['full_name']}');
 
-  return response!['full_name'];
+  return response['full_name'];
 }
 
 

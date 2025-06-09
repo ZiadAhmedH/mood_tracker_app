@@ -3,7 +3,7 @@ import 'package:moodtracker_app/features/auth/domain/entities/user.dart';
 class UserModel extends User {
   UserModel({
     required super.id,
-    required String super.fullName,
+    required super.fullName,
     required super.email,
     required super.createdAt,
   });

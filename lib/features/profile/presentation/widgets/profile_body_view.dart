@@ -30,7 +30,7 @@ class ProfileBodyView extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    user.fullName ?? 'User Name',
+                    user.fullName,
                     style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold , color: Colors.black),
                   ),
                   Text(user.email, style: TextStyle(color: Colors.grey[700])),
@@ -83,7 +83,7 @@ class ProfileBodyView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Colors.grey[200],
+        color: Colors.grey[200],  
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

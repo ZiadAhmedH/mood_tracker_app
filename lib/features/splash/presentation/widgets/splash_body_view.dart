@@ -4,6 +4,7 @@ import 'package:moodtracker_app/core/constants/logo_assets.dart';
 import 'package:moodtracker_app/core/helper/shared_keys.dart';
 import 'package:moodtracker_app/core/helper/shared_prefrence.dart';
 import 'package:moodtracker_app/features/auth/presentation/login_view.dart';
+import 'package:moodtracker_app/features/home/Presentation/main_view.dart';
 import 'package:moodtracker_app/features/onBoarding/onboarding_screen1.dart';
 
 class SplashBodyView extends StatefulWidget {
@@ -32,20 +33,23 @@ class _SplashBodyViewState extends State<SplashBodyView> {
     );
   }
 
-  void executeSplashScreen() {
-    Future.delayed(const Duration(seconds: 2), () {
-      bool isLogin = LocalDataCore.getData(key: SharedKey.isLogin) ?? false;
-      bool isOnBoardingCompleted = LocalDataCore.getData(key: SharedKey.onBoarding) ?? false;
-      
-      if (isOnBoardingCompleted) {
-        if (isLogin) {
-          Navigator.pushNamedAndRemoveUntil(context, LoginView.routeName, (route) => false);
-        } else {
-          Navigator.pushNamedAndRemoveUntil(context, LoginView.routeName, (route) => false);
-        }
+  void executeSplashScreen() async {
+    await Future.delayed(const Duration(seconds: 2));
+
+    final isLogin = await LocalDataCore.getData(key: SharedKey.isLogin) ?? false;
+    final isOnBoardingCompleted = await LocalDataCore.getData(key: SharedKey.onBoarding) ?? false;
+
+    debugPrint('📦 isLogin: $isLogin');
+    debugPrint('📦 isOnBoardingCompleted: $isOnBoardingCompleted');
+
+    if (isOnBoardingCompleted) {
+      if (isLogin) {
+        Navigator.pushNamedAndRemoveUntil(context, MainView.routeName, (route) => false);
       } else {
-        Navigator.pushNamedAndRemoveUntil(context, OnboardingScreen.routeName, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, LoginView.routeName, (route) => false);
       }
-    });
+    } else {
+      Navigator.pushNamedAndRemoveUntil(context, OnboardingScreen.routeName, (route) => false);
+    }
   }
 }

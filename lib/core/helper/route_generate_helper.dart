@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:moodtracker_app/features/image_emotion_detection/presentation/camera_emotion_view.dart';
 import 'package:moodtracker_app/features/profile/presentation/profile_view.dart';
 import 'package:moodtracker_app/features/splash/presentation/splash_view.dart';
 import 'package:moodtracker_app/features/auth/presentation/login_view.dart';
@@ -36,7 +36,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings){
     case ProfileView.routeName:
       return MaterialPageRoute(builder: (context) => const ProfileView(),);
       
-        
+    case CameraEmotionView.routeName:
+      return MaterialPageRoute(builder: (context) => const CameraEmotionView(),); 
+
       default:
       return MaterialPageRoute(builder: (context) => const Scaffold(
         body: Center(child: Text('No route defined')),

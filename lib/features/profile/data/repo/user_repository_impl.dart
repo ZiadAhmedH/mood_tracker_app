@@ -1,5 +1,4 @@
 import 'package:moodtracker_app/features/auth/data/repository/auth_local_data_source_impl.dart';
-import 'package:moodtracker_app/features/profile/data/models/user_model.dart';
 import 'package:moodtracker_app/features/profile/domain/entities/user.dart';
 import 'package:moodtracker_app/features/profile/domain/repo/user_repository.dart';
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moodtracker_app/core/constants/logo_assets.dart';
+import 'package:moodtracker_app/core/helper/shared_keys.dart';
+import 'package:moodtracker_app/core/helper/shared_prefrence.dart';
 import 'package:moodtracker_app/features/auth/presentation/login_view.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -60,7 +62,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: Align(
                 alignment: Alignment.topRight,
                 child: TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+                     LocalDataCore.setData(key: SharedKey.onBoarding, value: true);
                     Navigator.pushReplacementNamed(context, LoginView.routeName);
                   },
                   child: const Text(
@@ -133,16 +136,38 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
 
             // Page indicators
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  onboardingData.length,
-                  (index) => buildIndicator(isActive: index == _currentIndex),
-                ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                onboardingData.length,
+                (index) => buildIndicator(isActive: index == _currentIndex),
               ),
             ),
+
+            const SizedBox(height: 16),
+
+            // Get Started Button (only on last page)
+            if (_currentIndex == onboardingData.length - 1)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 32.0),
+                child: ElevatedButton(
+                  onPressed: () async {
+                     LocalDataCore.setData(key: SharedKey.onBoarding, value: true);
+                    Navigator.pushReplacementNamed(context, LoginView.routeName);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    backgroundColor: Colors.black,
+                  ),
+                  child: const Text(
+                    "Get Started",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

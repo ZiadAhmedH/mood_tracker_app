@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moodtracker_app/core/utils/app_colors.dart';
 import 'package:moodtracker_app/core/widgets/custem_text_widget.dart';
+import 'package:moodtracker_app/features/image_emotion_detection/presentation/camera_emotion_view.dart';
 
 class MainBodyView extends StatelessWidget {
   const MainBodyView({super.key});
@@ -17,7 +18,6 @@ class MainBodyView extends StatelessWidget {
     return  Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // باقي الصفحة
             Expanded(
               child: Column(
                 children: [
@@ -37,14 +37,14 @@ class MainBodyView extends StatelessWidget {
                           children: [
                             ElevatedButton.icon(
                               onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(builder: (context) => CameraScreen()), // الانتقال إلى صفحة CameraScreen
-                                // );
+                               Navigator.pushNamed(
+                                  context, 
+                                  CameraEmotionView.routeName,
+                                );
                               },
                               icon: SvgPicture.asset(
                                 'assets/icons/camera.svg',
-                              ), // أيقونة الكاميرا
+                              ), 
                               label: CustomText(text:
                                 "Take a Picture",
                                 color: AppColors.primary,
@@ -55,7 +55,7 @@ class MainBodyView extends StatelessWidget {
                                 backgroundColor: AppColors.primaryLight,
                                 padding: const EdgeInsets.symmetric(vertical: 24),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16), // الحواف متساوية
+                                  borderRadius: BorderRadius.circular(16), 
                                 ),
                                 minimumSize: const Size(double.infinity, 72),
                               ),
@@ -124,20 +124,20 @@ class MainBodyView extends StatelessWidget {
             Container(
               width: double.infinity,
               height: 72,
-              padding: const EdgeInsets.symmetric(horizontal: 24), // إضافة padding ليكون متناسب
+              padding: const EdgeInsets.symmetric(horizontal: 24), 
               child: ElevatedButton(
                 onPressed: () {}, // يمكنك إضافة أي وظيفة هنا
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary, 
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16), // جعل الزر بنفس شكل الأزرار الأخرى
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  minimumSize: const Size(double.infinity, 72), // تأكيد العرض الكامل والارتفاع
+                  minimumSize: const Size(double.infinity, 72), 
                 ),
                 child: CustomText(text: "Next", color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
               ),
             ),
-            const SizedBox(height: 15), // مسافة بين زرار النكست والهوم انديكيتور
+            const SizedBox(height: 15),
           ],
     );
   }
