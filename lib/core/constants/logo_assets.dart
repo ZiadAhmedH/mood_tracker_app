@@ -2,6 +2,10 @@
 class Assets {
   Assets._();
   
+  /// Assets for assetsDataMockEmotionQuestions
+  /// assets/data_mock/emotion_questions.json
+  static const String assetsDataMockEmotionQuestions = "assets/data_mock/emotion_questions.json";
+
   /// Assets for assetsFontsInter24ptBold
   /// assets/fonts/Inter_24pt-Bold.ttf
   static const String assetsFontsInter24ptBold = "assets/fonts/Inter_24pt-Bold.ttf";
@@ -86,16 +90,24 @@ class Assets {
   /// assets/lottie/camera_loading.json
   static const String assetsLottieCameraLoading = "assets/lottie/camera_loading.json";
 
-  /// Assets for assetsModelsEmotionModel
-  /// assets/models/emotion_model.tflite
-  static const String assetsModelsEmotionModel = "assets/models/emotion_model.tflite";
+  /// Assets for assetsModelsFaceEmotionModel
+  /// assets/models/face/emotion_model.tflite
+  static const String assetsModelsFaceEmotionModel = "assets/models/face/emotion_model.tflite";
 
-  /// Assets for assetsModelsEmotionModelRgb
-  /// assets/models/emotion_model_rgb.tflite
-  static const String assetsModelsEmotionModelRgb = "assets/models/emotion_model_rgb.tflite";
+  /// Assets for assetsModelsFaceEmotionModelRgb
+  /// assets/models/face/emotion_model_rgb.tflite
+  static const String assetsModelsFaceEmotionModelRgb = "assets/models/face/emotion_model_rgb.tflite";
 
-  /// Assets for assetsModelsLabels
-  /// assets/models/labels.txt
-  static const String assetsModelsLabels = "assets/models/labels.txt";
+  /// Assets for assetsModelsFaceLabels
+  /// assets/models/face/labels.txt
+  static const String assetsModelsFaceLabels = "assets/models/face/labels.txt";
+
+  /// Assets for assetsModelsTextEmotionModelText
+  /// assets/models/text/emotion_model_text.tflite
+  static const String assetsModelsTextEmotionModelText = "assets/models/text/emotion_model_text.tflite";
+
+  /// Assets for assetsModelsTextVocab
+  /// assets/models/text/vocab.json
+  static const String assetsModelsTextVocab = "assets/models/text/vocab.json";
 }
 

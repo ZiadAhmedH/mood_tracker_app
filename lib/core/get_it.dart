@@ -1,10 +1,12 @@
 import 'package:get_it/get_it.dart';
-import 'package:moodtracker_app/features/image_emotion_detection/domain/usecases/fetch_emotion_questions.dart';
-import 'package:moodtracker_app/features/image_emotion_detection/presentation/cubits/emotion_question_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-// Auth Feature
+// ✅ Audio Service (Quran Feature)
+import 'package:moodtracker_app/features/suggestion_treatment/quran/data/service/audio_service.dart';
+import 'package:moodtracker_app/features/suggestion_treatment/quran/presentation/controller/surah_playback_controller.dart';
+
+// ✅ Auth Feature
 import 'package:moodtracker_app/features/auth/data/datasource/auth_remote_data_source.dart';
 import 'package:moodtracker_app/features/auth/data/repository/auth_local_data_source_impl.dart';
 import 'package:moodtracker_app/features/auth/data/repository/auth_repo_impl.dart';
@@ -13,31 +15,39 @@ import 'package:moodtracker_app/features/auth/domain/usecases/email_pass_sign_up
 import 'package:moodtracker_app/features/auth/domain/usecases/login_user_use_case.dart';
 import 'package:moodtracker_app/features/auth/presentation/cubit/auth_cubit.dart';
 
-// Profile Feature
-import 'package:moodtracker_app/features/profile/domain/repo/user_repository.dart';
+// ✅ Profile Feature
 import 'package:moodtracker_app/features/profile/data/repo/user_repository_impl.dart';
+import 'package:moodtracker_app/features/profile/domain/repo/user_repository.dart';
 import 'package:moodtracker_app/features/profile/domain/usecases/get_cahed_User.dart';
 import 'package:moodtracker_app/features/profile/presentation/cubits/profile_cubit.dart';
 
-// Emotion Assessment Feature
-import 'package:moodtracker_app/features/image_emotion_detection/data/data_source/emotion_question_remote_data_source.dart';
-import 'package:moodtracker_app/features/image_emotion_detection/data/repo/emotion_question_repository_impl.dart';
-import 'package:moodtracker_app/features/image_emotion_detection/domain/repo/emotion_question_repository.dart';
-
+// ✅ Emotion Detection Feature
+import 'package:moodtracker_app/features/emotion_detection/data/data_source/emotion_question_remote_data_source.dart';
+import 'package:moodtracker_app/features/emotion_detection/data/repo/emotion_question_repository_impl.dart';
+import 'package:moodtracker_app/features/emotion_detection/domain/repo/emotion_question_repository.dart';
+import 'package:moodtracker_app/features/emotion_detection/domain/usecases/fetch_emotion_questions.dart';
+import 'package:moodtracker_app/features/emotion_detection/presentation/cubits/emotion_question_cubit.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  // ✅ Shared Preferences
+  // -------------------------------
+  // ✅ Core Services
+  // -------------------------------
   final sharedPrefs = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPrefs);
 
-  // ✅ Supabase Client
   final supabase = Supabase.instance.client;
   sl.registerLazySingleton(() => supabase);
 
   // -------------------------------
-  // ✅ Auth Feature Setup
+  // ✅ Audio Playback (Quran Feature)
+  // -------------------------------
+  sl.registerLazySingleton<AudioServiceImpl>(() => AudioServiceImpl());
+  sl.registerLazySingleton<SurahPlaybackController>(() => SurahPlaybackController());
+
+  // -------------------------------
+  // ✅ Auth Feature
   // -------------------------------
   sl.registerLazySingleton<AuthLocalDataSource>(
     () => AuthLocalDataSourceImpl(sl()),
@@ -53,11 +63,10 @@ Future<void> init() async {
 
   sl.registerLazySingleton(() => SignUpEmailPassUseCase(sl()));
   sl.registerLazySingleton(() => LoginUserUseCase(sl()));
-
   sl.registerFactory(() => AuthCubit(sl(), sl()));
 
   // -------------------------------
-  // ✅ Profile Feature Setup
+  // ✅ Profile Feature
   // -------------------------------
   sl.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(sl()),
@@ -67,7 +76,7 @@ Future<void> init() async {
   sl.registerFactory(() => ProfileCubit(sl()));
 
   // -------------------------------
-  // ✅ Emotion Assessment Feature Setup
+  // ✅ Emotion Detection Feature
   // -------------------------------
   sl.registerLazySingleton<EmotionQuestionRemoteDataSource>(
     () => EmotionQuestionRemoteDataSourceImpl(),

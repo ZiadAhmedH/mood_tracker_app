@@ -1,0 +1,26 @@
+
+List<String> surahNames = [
+  "Al-Faatiha", "Al-Baqara", "Aal-i-Imraan", "An-Nisaa", "Al-Maaida",
+  "Al-An'aam", "Al-A'raaf", "Al-Anfaal", "At-Tawba", "Yunus",
+  "Hud", "Yusuf", "Ar-Ra'd", "Ibrahim", "Al-Hijr",
+  "An-Nahl", "Al-Israa", "Al-Kahf", "Maryam", "Taha",
+  "Al-Anbiyaa", "Al-Hajj", "Al-Mu'minoon", "An-Noor", "Al-Furqaan",
+  "Ash-Shu'araa", "An-Naml", "Al-Qasas", "Al-Ankaboot", "Ar-Room",
+  "Luqman", "As-Sajda", "Al-Ahzaab", "Saba", "Fatir",
+  "Ya-Sin", "As-Saffat", "Sad", "Az-Zumar", "Ghafir",
+  "Fussilat", "Ash-Shura", "Az-Zukhruf", "Ad-Dukhan", "Al-Jathiya",
+  "Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujraat", "Qaf",
+  "Adh-Dhariyat", "At-Tur", "An-Najm", "Al-Qamar", "Ar-Rahman",
+  "Al-Waqia", "Al-Hadid", "Al-Mujadila", "Al-Hashr", "Al-Mumtahina",
+  "As-Saff", "Al-Jumu'a", "Al-Munafiqoon", "At-Taghabun", "At-Talaq",
+  "At-Tahrim", "Al-Mulk", "Al-Qalam", "Al-Haaqqa", "Al-Ma'arij",
+  "Nuh", "Al-Jinn", "Al-Muzzammil", "Al-Muddaththir", "Al-Qiyama",
+  "Al-Insan", "Al-Mursalat", "An-Naba", "An-Nazi'aat", "Abasa",
+  "At-Takwir", "Al-Infitar", "Al-Mutaffifin", "Al-Inshiqaq", "Al-Burooj",
+  "At-Tariq", "Al-A'la", "Al-Ghashiya", "Al-Fajr", "Al-Balad",
+  "Ash-Shams", "Al-Lail", "Ad-Duhaa", "Ash-Sharh", "At-Tin",
+  "Al-Alaq", "Al-Qadr", "Al-Bayyina", "Az-Zalzala", "Al-Adiyat",
+  "Al-Qari'a", "At-Takathur", "Al-Asr", "Al-Humaza", "Al-Fil",
+  "Quraish", "Al-Ma'un", "Al-Kawthar", "Al-Kafiroon", "An-Nasr",
+  "Al-Masad", "Al-Ikhlas", "Al-Falaq", "An-Nas"
+];

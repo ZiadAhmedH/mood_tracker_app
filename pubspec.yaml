@@ -32,6 +32,9 @@ dependencies:
   permission_handler: ^12.0.0+1
   lottie: ^3.3.1
   tflite_v2: ^1.0.0
+  just_audio: ^0.10.4
+  audio_service: ^0.18.18
+  audio_session: ^0.2.2
 
 dev_dependencies:
   flutter_test:
@@ -45,11 +48,12 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/fonts/
-    - assets/models/emotion_model.tflite
-    - assets/models/emotion_model_rgb.tflite
-    - assets/models/labels.txt
-    - assets/data_mock/emotion_questions.json
+    - assets/models/face/emotion_model.tflite
+    - assets/models/face/emotion_model_rgb.tflite
+    - assets/models/face/labels.txt
+    - assets/models/text/emotion_model_text.tflite
     - assets/lottie/camera_loading.json
+    - assets/models/text/vocab.json
     - .env
 
 flutter_assets:

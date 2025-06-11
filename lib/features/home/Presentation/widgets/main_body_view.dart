@@ -3,8 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moodtracker_app/core/utils/app_colors.dart';
 import 'package:moodtracker_app/core/widgets/custem_text_widget.dart';
-import 'package:moodtracker_app/features/image_emotion_detection/presentation/camera_emotion_view.dart';
-import 'package:moodtracker_app/features/image_emotion_detection/presentation/question_view.dart';
+import 'package:moodtracker_app/features/emotion_detection/presentation/camera_emotion_view.dart';
+import 'package:moodtracker_app/features/emotion_detection/presentation/question_view.dart';
+import 'package:moodtracker_app/features/emotion_detection/presentation/text_emotaion_view.dart';
 
 class MainBodyView extends StatelessWidget {
   const MainBodyView({super.key});
@@ -90,11 +91,10 @@ class MainBodyView extends StatelessWidget {
                             const SizedBox(height: 24),
                             ElevatedButton.icon(
                               onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(builder: (context) => EmotionTextDetectionScreen()), // الانتقال إلى شاشة كتابة المشاعر
-                                // );
-                              },
+  print('Navigating to EmotionTextView...');
+  Navigator.pushNamed(context, EmotionTextView.routeName);
+},
+
                               icon:SvgPicture.asset(
                                 'assets/icons/smallcaps.svg',
                               ), // أيقونة الكاميرص
@@ -127,7 +127,9 @@ class MainBodyView extends StatelessWidget {
               height: 72,
               padding: const EdgeInsets.symmetric(horizontal: 24), 
               child: ElevatedButton(
-                onPressed: () {}, // يمكنك إضافة أي وظيفة هنا
+                onPressed: () {
+                  
+                }, // يمكنك إضافة أي وظيفة هنا
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary, 
                   shape: RoundedRectangleBorder(
