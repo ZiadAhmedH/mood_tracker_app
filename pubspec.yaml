@@ -45,7 +45,8 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/fonts/
-    - assets/models/emotiondetector_model.tflite
+    - assets/models/emotion_model.tflite
+    - assets/models/emotion_model_rgb.tflite
     - assets/models/labels.txt
     - assets/lottie/camera_loading.json
     - .env

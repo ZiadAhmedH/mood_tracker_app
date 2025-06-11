@@ -86,9 +86,13 @@ class Assets {
   /// assets/lottie/camera_loading.json
   static const String assetsLottieCameraLoading = "assets/lottie/camera_loading.json";
 
-  /// Assets for assetsModelsEmotiondetectorModel
-  /// assets/models/emotiondetector_model.tflite
-  static const String assetsModelsEmotiondetectorModel = "assets/models/emotiondetector_model.tflite";
+  /// Assets for assetsModelsEmotionModel
+  /// assets/models/emotion_model.tflite
+  static const String assetsModelsEmotionModel = "assets/models/emotion_model.tflite";
+
+  /// Assets for assetsModelsEmotionModelRgb
+  /// assets/models/emotion_model_rgb.tflite
+  static const String assetsModelsEmotionModelRgb = "assets/models/emotion_model_rgb.tflite";
 
   /// Assets for assetsModelsLabels
   /// assets/models/labels.txt

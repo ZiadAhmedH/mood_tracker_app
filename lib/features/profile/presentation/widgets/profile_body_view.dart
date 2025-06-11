@@ -82,9 +82,9 @@ class ProfileBodyView extends StatelessWidget {
       height: height,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
         color: Colors.grey[200],  
-      ),
+      ), 
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
