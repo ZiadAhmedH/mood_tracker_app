@@ -6,8 +6,8 @@ class EmotionModelService {
   static Future<void> loadModel() async {
     try {
       String? result = await Tflite.loadModel(
-        model: Assets.assetsModelsEmotionModelRgb, // Update this to match your path
-        labels: Assets.assetsModelsLabels,       // Update this to match your path
+        model: Assets.assetsModelsEmotionModelRgb, 
+        labels: Assets.assetsModelsLabels,    
       );
       print("✅ Model loaded: $result");
     } catch (e) {

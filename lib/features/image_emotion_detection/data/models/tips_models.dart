@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const Map<String, Map<String, dynamic>> moodGuidance = {
-  'anger': {
+  'angery': {
     'title': 'Feeling Angry?',
     'tips': [
       'Take deep breaths (inhale for 4 seconds, hold for 4, exhale for 6)',
@@ -37,18 +37,7 @@ const Map<String, Map<String, dynamic>> moodGuidance = {
     'color': Colors.purple,
     'icon': Icons.warning,
   },
-  'joy': {
-    'title': 'Feeling Joyful!',
-    'tips': [
-      'Savor and prolong this positive emotion',
-      'Share your happiness with others',
-      'Express gratitude for what brought you joy',
-      'Engage in activities that maintain this mood',
-      'Create positive memories to look back on'
-    ],
-    'color': Colors.yellow,
-    'icon': Icons.emoji_emotions,
-  },
+  
   'neutral': {
     'title': 'Feeling Neutral',
     'tips': [
@@ -61,7 +50,7 @@ const Map<String, Map<String, dynamic>> moodGuidance = {
     'color': Colors.grey,
     'icon': Icons.psychology,
   },
-  'sadness': {
+  'sad': {
     'title': 'Feeling Sad?',
     'tips': [
       'Allow yourself to feel without judgment',
@@ -85,4 +74,19 @@ const Map<String, Map<String, dynamic>> moodGuidance = {
     'color': Colors.orange,
     'icon': Icons.celebration,
   },
+
+
+  'happy': {
+    'title': 'Feeling Happy!',
+    'tips': [
+      'Share your happiness with others',
+      'Engage in activities that bring you joy',
+      'Practice gratitude for the good things in life',
+      'Reflect on what made you happy',
+      'Consider how to maintain this positive mood'
+    ],
+    'color': Colors.amber,
+    'icon': Icons.emoji_emotions_outlined,
+  }
+
 };

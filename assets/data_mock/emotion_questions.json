@@ -1,0 +1,249 @@
+[
+  {
+    "category": "Mood",
+    "question_text": "How would you describe your mood today?",
+    "options": [
+      "Happy",
+      "Sad",
+      "Anxious",
+      "Neutral",
+      "Excited"
+    ]
+  },
+  {
+    "category": "Mood",
+    "question_text": "Have you experienced any mood swings today?",
+    "options": [
+      "Yes",
+      "No",
+      "Maybe"
+    ]
+  },
+  {
+    "category": "Stress and Anxiety",
+    "question_text": "How stressed have you been feeling recently?",
+    "options": [
+      "Not at all",
+      "Slightly",
+      "Moderately",
+      "Very",
+      "Extremely"
+    ]
+  },
+  {
+    "category": "Stress and Anxiety",
+    "question_text": "Have you felt anxious without any clear reason?",
+    "options": [
+      "Never",
+      "Sometimes",
+      "Often",
+      "Always"
+    ]
+  },
+  {
+    "category": "Sleep",
+    "question_text": "How would you rate the quality of your sleep recently?",
+    "options": [
+      "Excellent",
+      "Good",
+      "Fair",
+      "Poor",
+      "Very poor"
+    ]
+  },
+  {
+    "category": "Sleep",
+    "question_text": "Do you have trouble falling asleep?",
+    "options": [
+      "Never",
+      "Rarely",
+      "Sometimes",
+      "Often",
+      "Always"
+    ]
+  },
+  {
+    "category": "Well-being",
+    "question_text": "Do you feel a sense of purpose in your daily life?",
+    "options": [
+      "Yes",
+      "No",
+      "Unsure"
+    ]
+  },
+  {
+    "category": "Well-being",
+    "question_text": "How often do you feel grateful for what you have?",
+    "options": [
+      "Never",
+      "Rarely",
+      "Sometimes",
+      "Often",
+      "Always"
+    ]
+  },
+  {
+    "category": "Mood",
+    "question_text": "Do you feel more irritable than usual?",
+    "options": [
+      "Yes",
+      "No",
+      "Maybe"
+    ]
+  },
+  {
+    "category": "Stress and Anxiety",
+    "question_text": "How often do you feel overwhelmed?",
+    "options": [
+      "Never",
+      "Rarely",
+      "Sometimes",
+      "Often",
+      "Always"
+    ]
+  },
+  {
+    "category": "Sleep",
+    "question_text": "Do you wake up feeling rested?",
+    "options": [
+      "Always",
+      "Often",
+      "Sometimes",
+      "Rarely",
+      "Never"
+    ]
+  },
+  {
+    "category": "Well-being",
+    "question_text": "Do you feel connected to others?",
+    "options": [
+      "Yes",
+      "No",
+      "Sometimes"
+    ]
+  },
+  {
+    "category": "Mood",
+    "question_text": "Have you laughed today?",
+    "options": [
+      "Yes",
+      "No"
+    ]
+  },
+  {
+    "category": "Stress and Anxiety",
+    "question_text": "Do you find it difficult to relax?",
+    "options": [
+      "Yes",
+      "No",
+      "Sometimes"
+    ]
+  },
+  {
+    "category": "Sleep",
+    "question_text": "How many hours of sleep do you usually get?",
+    "options": [
+      "Less than 4",
+      "4-6",
+      "6-8",
+      "More than 8"
+    ]
+  },
+  {
+    "category": "Well-being",
+    "question_text": "Do you engage in activities you enjoy?",
+    "options": [
+      "Yes",
+      "No",
+      "Sometimes"
+    ]
+  },
+  {
+    "category": "Mood",
+    "question_text": "Do you feel hopeful about the future?",
+    "options": [
+      "Yes",
+      "No",
+      "Not sure"
+    ]
+  },
+  {
+    "category": "Stress and Anxiety",
+    "question_text": "Do you feel in control of your life?",
+    "options": [
+      "Yes",
+      "No",
+      "Sometimes"
+    ]
+  },
+  {
+    "category": "Sleep",
+    "question_text": "Do you use electronic devices before bed?",
+    "options": [
+      "Always",
+      "Often",
+      "Sometimes",
+      "Rarely",
+      "Never"
+    ]
+  },
+  {
+    "category": "Well-being",
+    "question_text": "How would you describe your overall mental health?",
+    "options": [
+      "Excellent",
+      "Good",
+      "Fair",
+      "Poor"
+    ]
+  },
+  {
+    "category": "Mood",
+    "question_text": "Do you find it hard to focus due to your emotions?",
+    "options": [
+      "Yes",
+      "No",
+      "Sometimes"
+    ]
+  },
+  {
+    "category": "Stress and Anxiety",
+    "question_text": "Do physical symptoms (e.g., headaches) accompany your stress?",
+    "options": [
+      "Never",
+      "Rarely",
+      "Sometimes",
+      "Often",
+      "Always"
+    ]
+  },
+  {
+    "category": "Sleep",
+    "question_text": "Do you have vivid dreams that affect your rest?",
+    "options": [
+      "Never",
+      "Rarely",
+      "Sometimes",
+      "Often",
+      "Always"
+    ]
+  },
+  {
+    "category": "Well-being",
+    "question_text": "Do you practice mindfulness or meditation?",
+    "options": [
+      "Yes",
+      "No",
+      "Occasionally"
+    ]
+  },
+  {
+    "category": "Mood",
+    "question_text": "Do you feel emotionally supported by others?",
+    "options": [
+      "Yes",
+      "No",
+      "Sometimes"
+    ]
+  }
+]

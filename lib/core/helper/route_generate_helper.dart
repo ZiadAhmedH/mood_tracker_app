@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moodtracker_app/features/image_emotion_detection/presentation/camera_emotion_view.dart';
 import 'package:moodtracker_app/features/image_emotion_detection/presentation/feeling_selection_screen.dart';
+import 'package:moodtracker_app/features/image_emotion_detection/presentation/question_view.dart';
 import 'package:moodtracker_app/features/profile/presentation/profile_view.dart';
 import 'package:moodtracker_app/features/splash/presentation/splash_view.dart';
 import 'package:moodtracker_app/features/auth/presentation/login_view.dart';
@@ -54,6 +55,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
           return SlideTransition(position: animation.drive(tween), child: child);
         },
       );
+
+      case QuestionView.routeName:
+      return MaterialPageRoute(builder: (context) => const QuestionView());
 
     default:
       return MaterialPageRoute(

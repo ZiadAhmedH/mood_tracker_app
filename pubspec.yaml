@@ -48,6 +48,7 @@ flutter:
     - assets/models/emotion_model.tflite
     - assets/models/emotion_model_rgb.tflite
     - assets/models/labels.txt
+    - assets/data_mock/emotion_questions.json
     - assets/lottie/camera_loading.json
     - .env
 

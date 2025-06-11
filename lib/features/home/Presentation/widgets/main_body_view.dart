@@ -4,10 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moodtracker_app/core/utils/app_colors.dart';
 import 'package:moodtracker_app/core/widgets/custem_text_widget.dart';
 import 'package:moodtracker_app/features/image_emotion_detection/presentation/camera_emotion_view.dart';
+import 'package:moodtracker_app/features/image_emotion_detection/presentation/question_view.dart';
 
 class MainBodyView extends StatelessWidget {
   const MainBodyView({super.key});
-  static const String routeName = '/main';
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -15,7 +16,7 @@ class MainBodyView extends StatelessWidget {
       statusBarIconBrightness: Brightness.dark,
     ));
 
-    return  Column(
+    return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
@@ -63,10 +64,10 @@ class MainBodyView extends StatelessWidget {
                             const SizedBox(height: 24),
                             ElevatedButton.icon(
                               onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(builder: (context) => QuestionScreen()), // الانتقال إلى شاشة الأسئلة
-                                // );
+                                Navigator.pushNamed(
+                                  context, 
+                                  QuestionView.routeName,
+                                );
                               },
                               icon: SvgPicture.asset(
                                 'assets/icons/edit-2.svg',
