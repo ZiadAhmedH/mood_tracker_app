@@ -13,7 +13,7 @@ class GetCachedUserUseCase {
       if (user == null) {
         return Right(null);  
       } else {
-        return Right(user);
+        return Right(user as User?);
       }
     } catch (e) {
       return Left('Failed to get cached user: ${e.toString()}');

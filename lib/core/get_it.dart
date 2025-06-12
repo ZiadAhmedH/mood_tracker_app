@@ -1,4 +1,10 @@
 import 'package:get_it/get_it.dart';
+import 'package:moodtracker_app/features/profile/data/data_source/user_remote_data_source.dart';
+import 'package:moodtracker_app/features/profile/domain/usecases/get_daily_mood_stats.dart';
+import 'package:moodtracker_app/features/profile/domain/usecases/get_weekly_mood_stats.dart';
+import 'package:moodtracker_app/features/profile/domain/usecases/get_yearly_mood_stats.dart';
+import 'package:moodtracker_app/features/profile/domain/usecases/save_use_mood.dart';
+import 'package:moodtracker_app/features/profile/presentation/cubits/mood_stat_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -27,6 +33,8 @@ import 'package:moodtracker_app/features/emotion_detection/data/repo/emotion_que
 import 'package:moodtracker_app/features/emotion_detection/domain/repo/emotion_question_repository.dart';
 import 'package:moodtracker_app/features/emotion_detection/domain/usecases/fetch_emotion_questions.dart';
 import 'package:moodtracker_app/features/emotion_detection/presentation/cubits/emotion_question_cubit.dart';
+
+import '../features/profile/domain/usecases/get_monthly_mood_stats.dart';
 
 final sl = GetIt.instance;
 
@@ -69,7 +77,7 @@ Future<void> init() async {
   // ✅ Profile Feature
   // -------------------------------
   sl.registerLazySingleton<UserRepository>(
-    () => UserRepositoryImpl(sl()),
+    () => UserRepositoryImpl(sl() , sl() , sl()),
   );
 
   sl.registerLazySingleton(() => GetCachedUserUseCase(sl()));
@@ -88,4 +96,32 @@ Future<void> init() async {
 
   sl.registerLazySingleton(() => FetchEmotionQuestions(sl()));
   sl.registerFactory(() => EmotionQuestionCubit(sl()));
+
+
+  // -------------------------------
+  // statistucs mood
+  // -------------------------------
+
+  sl.registerLazySingleton<UserRemoteDataSource>(() => UserRemoteDataSourceImpl(sl()));
+   
+
+  // You can register more dependencies here as needed
+
+sl.registerLazySingleton(() => GetDailyMoodStatsUseCase(sl()));
+sl.registerLazySingleton(() => GetWeeklyMoodStatsUseCase(sl()));
+sl.registerLazySingleton(() => GetMonthlyMoodStatsUseCase(sl()));
+sl.registerLazySingleton(() => GetYearlyMoodStatsUseCase(sl()));
+sl.registerLazySingleton(() => SaveUserMoodUseCase(sl()));
+
+
+   
+
+sl.registerFactory(() => MoodStatsCubit(
+  getDailyMoodStats: sl(),
+  getWeeklyMoodStats: sl(),
+  getMonthlyMoodStats: sl(),
+  getYearlyMoodStats: sl(),
+  saveUserMood: sl(),
+));
+
 }

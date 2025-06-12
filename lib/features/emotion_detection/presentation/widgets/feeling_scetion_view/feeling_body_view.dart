@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moodtracker_app/features/emotion_detection/data/models/tips_models.dart';
 import 'package:moodtracker_app/features/emotion_detection/presentation/tips_guide_view.dart';
-import 'package:moodtracker_app/features/suggestion_treatment/quran/presentation/suggestion_view.dart';
+import 'package:moodtracker_app/features/suggestion_treatment/suggestion_view.dart';
 
 class FeelingBodyView extends StatelessWidget {
   final String userFeeling;

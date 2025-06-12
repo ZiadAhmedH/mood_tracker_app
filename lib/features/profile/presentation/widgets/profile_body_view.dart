@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moodtracker_app/features/profile/presentation/cubits/profile_cubit.dart';
 import 'package:moodtracker_app/features/profile/presentation/cubits/profile_state.dart';
+import 'package:moodtracker_app/features/profile/presentation/mood_statistics_view.dart';
 
 class ProfileBodyView extends StatelessWidget {
   const ProfileBodyView({super.key});
@@ -35,7 +36,10 @@ class ProfileBodyView extends StatelessWidget {
                   ),
                   Text(user.email, style: TextStyle(color: Colors.grey[700])),
                   const SizedBox(height: 16),
-                  buildButton('View Statistics', Icons.bar_chart, const Color(0xFF9616FF)),
+                  buildButton('View Statistics', Icons.bar_chart, const Color(0xFF9616FF) , onPressed: () {
+                    // Navigate to statistics page
+                    Navigator.pushNamed(context, MoodStatisticsView.routeName);
+                  }),
                   const SizedBox(height: 16),
                   buildSettingOption('App Language', 'English', null, 50),
                   const SizedBox(height: 16),
@@ -43,7 +47,10 @@ class ProfileBodyView extends StatelessWidget {
                   const SizedBox(height: 16),
                   buildSettingOption('Allow Notifications', null, Switch(value: true, onChanged: (_) {}), 50),
                   const Spacer(),
-                  buildButton('Logout', null, const Color(0xFFFF0000)),
+                  buildButton('Logout', null, const Color(0xFFFF0000) , onPressed: () {
+                    // Handle logout logic here
+                   
+                  }),
                   const SizedBox(height: 10),
                 ],
               ),
@@ -57,9 +64,9 @@ class ProfileBodyView extends StatelessWidget {
     );
   }
 
-  Widget buildButton(String text, IconData? icon, Color color) {
+  Widget buildButton(String text, IconData? icon, Color color , {required VoidCallback? onPressed}) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         minimumSize: const Size(double.infinity, 70),

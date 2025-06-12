@@ -4,6 +4,7 @@ import 'package:moodtracker_app/features/emotion_detection/presentation/feeling_
 import 'package:moodtracker_app/features/emotion_detection/presentation/question_view.dart';
 import 'package:moodtracker_app/features/emotion_detection/presentation/text_emotaion_view.dart';
 import 'package:moodtracker_app/features/emotion_detection/presentation/tips_guide_view.dart';
+import 'package:moodtracker_app/features/profile/presentation/mood_statistics_view.dart';
 import 'package:moodtracker_app/features/profile/presentation/profile_view.dart';
 import 'package:moodtracker_app/features/splash/presentation/splash_view.dart';
 import 'package:moodtracker_app/features/auth/presentation/login_view.dart';
@@ -11,7 +12,7 @@ import 'package:moodtracker_app/features/auth/presentation/sign_up_view.dart';
 import 'package:moodtracker_app/features/onBoarding/onboarding_screen1.dart';
 import 'package:moodtracker_app/features/home/Presentation/main_view.dart';
 import 'package:moodtracker_app/features/suggestion_treatment/quran/presentation/quran_view/quran_view.dart';
-import 'package:moodtracker_app/features/suggestion_treatment/quran/presentation/suggestion_view.dart';
+import 'package:moodtracker_app/features/suggestion_treatment/suggestion_view.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings settings) {
   switch(settings.name) {
@@ -76,6 +77,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     
     case QuranView.routeName:
       return MaterialPageRoute(builder: (context) => const QuranView());
+
+    case MoodStatisticsView.routeName:
+      return MaterialPageRoute(builder: (context) => const MoodStatisticsView());    
     default:
       return MaterialPageRoute(
         builder: (context) => const Scaffold(

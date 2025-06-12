@@ -9,7 +9,8 @@ abstract class AuthLocalDataSource {
   });
 
   Future<Map<String, String>?> getCachedUserData();
-
+ 
+  Future<String?> getUserId();
   Future<void> clearUserData();
 }
 
@@ -75,6 +76,12 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     }
 
     return null;
+  }
+
+  @override
+   Future<String?> getUserId() async {
+    final cachedUser = await getCachedUserData();
+    return cachedUser?['id'];
   }
 
   @override
