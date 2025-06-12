@@ -5,7 +5,6 @@ import 'package:moodtracker_app/features/profile/presentation/cubits/mood_stat_c
 import 'package:moodtracker_app/features/profile/presentation/widgets/mood_statistics_body_view.dart';
 
 class MoodStatisticsView extends StatelessWidget {
-
   static const String routeName = '/mood-statistics';
   const MoodStatisticsView({super.key});
 
@@ -41,7 +40,17 @@ class _MoodStatisticsScaffoldState extends State<_MoodStatisticsScaffold> {
         centerTitle: true,
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              'Select Period:',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          const SizedBox(height: 8),
           SizedBox(
             height: 50,
             child: ListView.builder(
@@ -51,10 +60,19 @@ class _MoodStatisticsScaffoldState extends State<_MoodStatisticsScaffold> {
               itemBuilder: (context, index) {
                 final period = _periods[index];
                 final selected = period == _selectedPeriod;
+
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
                   child: ChoiceChip(
-                    label: Text(period.toUpperCase()),
+                    label: Text(
+                      period.toUpperCase(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: selected ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    selectedColor: Theme.of(context).primaryColor,
+                    backgroundColor: Colors.grey[200],
                     selected: selected,
                     onSelected: (_) {
                       setState(() => _selectedPeriod = period);
@@ -64,6 +82,7 @@ class _MoodStatisticsScaffoldState extends State<_MoodStatisticsScaffold> {
               },
             ),
           ),
+          const SizedBox(height: 16),
           Expanded(
             child: MoodStatisticsBodyView(period: _selectedPeriod),
           ),

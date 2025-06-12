@@ -20,50 +20,93 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
   @override
   Future<List<MoodStatModel>> getDailyMoodStats(String userId) async {
-    final response =
-        await client.rpc('get_daily_mood_counts', params: {'user_id': userId}).select();
-    return (response as List).map((e) => MoodStatModel.fromJson(e)).toList();
+    try {
+      final response = await client.rpc('get_daily_mood_counts');
+      print('📅 Daily Mood Stats Raw Response: $response');
+
+      if (response == null || (response as List).isEmpty) return [];
+
+      return response
+          .map((e) => MoodStatModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      print('❌ Error fetching daily stats: $e');
+      throw Exception('Failed to load daily mood stats: $e');
+    }
   }
 
   @override
   Future<List<MoodStatModel>> getWeeklyMoodStats(String userId) async {
-    final response =
-        await client.rpc('get_weekly_mood_counts', params: {'user_id': userId}).select();
-    return (response as List).map((e) => MoodStatModel.fromJson(e)).toList();
+    try {
+      final response = await client.rpc('get_weekly_mood_counts');
+      print('📈 Weekly Mood Stats Raw Response: $response');
+
+      if (response == null || (response as List).isEmpty) return [];
+
+      return response
+          .map((e) => MoodStatModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      print('❌ Error fetching weekly stats: $e');
+      throw Exception('Failed to load weekly mood stats: $e');
+    }
   }
 
   @override
   Future<List<MoodStatModel>> getMonthlyMoodStats(String userId) async {
-    final response =
-        await client.rpc('get_monthly_mood_counts', params: {'user_id': userId}).select();
-    return (response as List).map((e) => MoodStatModel.fromJson(e)).toList();
+    try {
+      final response = await client.rpc('get_monthly_mood_counts');
+      print('📆 Monthly Mood Stats Raw Response: $response');
+
+      if (response == null || (response as List).isEmpty) return [];
+
+      return response
+          .map((e) => MoodStatModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      print('❌ Error fetching monthly stats: $e');
+      throw Exception('Failed to load monthly mood stats: $e');
+    }
   }
 
   @override
   Future<List<MoodStatModel>> getYearlyMoodStats(String userId) async {
-    final response =
-        await client.rpc('get_yearly_mood_counts', params: {'user_id': userId}).select();
-    return (response as List).map((e) => MoodStatModel.fromJson(e)).toList();
+    try {
+      final response = await client.rpc('get_yearly_mood_counts');
+      print('📅 Yearly Mood Stats Raw Response: $response');
+
+      if (response == null || (response as List).isEmpty) return [];
+
+      return response
+          .map((e) => MoodStatModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      print('❌ Error fetching yearly stats: $e');
+      throw Exception('Failed to load yearly mood stats: $e');
+    }
   }
 
   @override
   Future<void> saveUserMood({
-  required String userId,
-  required String mood,
-  required DateTime createdAt,
-}) async {
-  final response = await Supabase.instance.client
-      .from('user_moods')
-      .insert({
+    required String userId,
+    required String mood,
+    required DateTime createdAt,
+  }) async {
+    try {
+      final payload = {
         'user_id': userId,
-        'mood': mood,
+        'mood_value': mood, // ✅ Match your SQL table column
         'created_at': createdAt.toIso8601String(),
-      })
-      .select(); // returns inserted row if successful
+      };
 
-  if (response == null || response.isEmpty) {
-    throw Exception("Mood insertion failed.");
+      print('📝 Saving Mood: $payload');
+
+      final response = await client.from('history_records').insert(payload);
+
+      print('✅ Mood Insert Response: $response');
+    } catch (e) {
+      print("❌ Error saving mood: $e");
+      throw Exception("Error saving mood: $e");
+    }
   }
-}
-
 }

@@ -6,7 +6,7 @@ import 'package:moodtracker_app/features/profile/domain/entities/mod_stat.dart';
 import 'package:moodtracker_app/features/profile/presentation/cubits/mood_stat_state.dart';
 
 class MoodStatisticsBodyView extends StatelessWidget {
-  final String period; // 'daily', 'weekly', 'monthly', 'yearly'
+  final String period;
 
   const MoodStatisticsBodyView({super.key, required this.period});
 
@@ -16,21 +16,27 @@ class MoodStatisticsBodyView extends StatelessWidget {
       builder: (context, state) {
         if (state is MoodStatsLoading) {
           return const Center(child: CircularProgressIndicator());
-        } else if (state is MoodStatsError) {
-          return Center(child: Text(state.message));
-        } else if (state is MoodStatsLoaded) {
+        }
+
+        if (state is MoodStatsError) {
+          return _buildMessage(context, state.message, isError: true);
+        }
+
+        if (state is MoodStatsLoaded) {
           final List<MoodStat> data = _getStatsByPeriod(state);
           if (data.isEmpty) {
-            return const Center(child: Text("No data available."));
+            return _buildMessage(context, "No mood data found for $period.");
           }
 
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: BarChart(
               BarChartData(
+                alignment: BarChartAlignment.spaceAround,
+                maxY: _getMaxY(data),
                 titlesData: FlTitlesData(
                   leftTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: true),
+                    sideTitles: SideTitles(showTitles: true, reservedSize: 30),
                   ),
                   bottomTitles: AxisTitles(
                     sideTitles: SideTitles(
@@ -38,13 +44,17 @@ class MoodStatisticsBodyView extends StatelessWidget {
                       getTitlesWidget: (value, meta) {
                         final int index = value.toInt();
                         if (index < data.length) {
-                          return Text(data[index].mood);
+                          return Text(
+                            data[index].mood,
+                            style: const TextStyle(fontSize: 12),
+                          );
                         }
-                        return const Text('');
+                        return const SizedBox.shrink();
                       },
                     ),
                   ),
                 ),
+                gridData: FlGridData(show: true),
                 borderData: FlBorderData(show: false),
                 barGroups: data.asMap().entries.map((entry) {
                   final int index = entry.key;
@@ -56,7 +66,7 @@ class MoodStatisticsBodyView extends StatelessWidget {
                         toY: stat.count.toDouble(),
                         color: Colors.blueAccent,
                         width: 18,
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(6),
                       ),
                     ],
                   );
@@ -84,5 +94,36 @@ class MoodStatisticsBodyView extends StatelessWidget {
       default:
         return [];
     }
+  }
+
+  double _getMaxY(List<MoodStat> stats) {
+    final max = stats.map((s) => s.count).fold<int>(0, (a, b) => a > b ? a : b);
+    return max < 5 ? 5 : max.toDouble();
+  }
+
+  Widget _buildMessage(BuildContext context, String message, {bool isError = false}) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              isError ? Icons.error_outline : Icons.insert_chart_outlined,
+              color: isError ? Colors.red : Colors.grey,
+              size: 48,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              message,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: isError ? Colors.red : Colors.grey[700],
+                  ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

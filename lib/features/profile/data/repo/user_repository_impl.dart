@@ -11,9 +11,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class UserRepositoryImpl implements UserRepository {
   final AuthLocalDataSource localDataSource;
   final UserRemoteDataSource remoteDataSource;
-  
-    final SupabaseClient client;
-
+  final SupabaseClient client;
 
   UserRepositoryImpl(this.localDataSource, this.remoteDataSource, this.client);
 
@@ -39,19 +37,18 @@ class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  Future<Either<Failure, List<MoodStatModel>>> _getMoodStats(
+  Future<Either<Failure, List<MoodStat>>> _getMoodStats(
       Future<List<MoodStatModel>> Function(String userId) fetcher) async {
     try {
-      final cachedUser = await localDataSource.getCachedUserData();
-      if (cachedUser == null || cachedUser['id'] == null) {
+      final cachedUserId = await localDataSource.getUserId();
+      if (cachedUserId == null) {
         return Left(CacheFailure('No user ID found in cache'));
       }
 
-      final userId = cachedUser['id'];
+      final modelList = await fetcher(cachedUserId);
+      final entityList = modelList.map((e) => e.toEntity()).toList();
 
-      final data = await fetcher(userId!);
-
-      return Right(data);
+      return Right(entityList);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -77,8 +74,7 @@ class UserRepositoryImpl implements UserRepository {
     return _getMoodStats(remoteDataSource.getYearlyMoodStats);
   }
 
-
-@override
+  @override
   Future<Either<Failure, MoodStat>> saveUserMood({
     required String mood,
     required DateTime createdAt,
@@ -102,13 +98,13 @@ class UserRepositoryImpl implements UserRepository {
 
       return Right(
         MoodStat(
-          mood: response['mood'],
-          createdAt: DateTime.parse(response['created_at']), count: 1,
+          mood: response['mood_value'],
+          count: 1,
+          createdAt: DateTime.parse(response['created_at']),
         ),
       );
     } catch (e) {
       return Left(ServerFailure("Failed to save mood: ${e.toString()}"));
     }
   }
-
 }
