@@ -73,7 +73,10 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     
 
     case TreatmentSuggestionView.routeName:
-      return MaterialPageRoute(builder: (context) => const TreatmentSuggestionView());
+      final args = settings.arguments as Map<String, dynamic>?;
+      return MaterialPageRoute(builder: (context) => TreatmentSuggestionView(
+        userFeeling: args?['userFeeling'] ?? '',
+      ));
     
     case QuranView.routeName:
       return MaterialPageRoute(builder: (context) => const QuranView());

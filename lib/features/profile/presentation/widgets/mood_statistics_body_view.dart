@@ -1,91 +1,157 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:moodtracker_app/features/profile/presentation/cubits/mood_stat_cubit.dart';
+import 'package:moodtracker_app/core/utils/app_colors.dart';
 import 'package:moodtracker_app/features/profile/domain/entities/mod_stat.dart';
+import 'package:moodtracker_app/features/profile/presentation/cubits/mood_stat_cubit.dart';
 import 'package:moodtracker_app/features/profile/presentation/cubits/mood_stat_state.dart';
 
 class MoodStatisticsBodyView extends StatelessWidget {
   final String period;
+  final void Function(String) onPeriodChange;
 
-  const MoodStatisticsBodyView({super.key, required this.period});
+  const MoodStatisticsBodyView({
+    super.key,
+    required this.period,
+    required this.onPeriodChange,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MoodStatsCubit, MoodStatsState>(
       builder: (context, state) {
-        if (state is MoodStatsLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (state is MoodStatsError) {
-          return _buildErrorCard(state.message);
-        }
-
+        if (state is MoodStatsLoading) return const Center(child: CircularProgressIndicator());
+        if (state is MoodStatsError) return _errorCard(state.message);
         if (state is MoodStatsLoaded) {
-          final data = _getStatsByPeriod(state);
-          if (data.isEmpty) {
-            return _buildErrorCard("No mood data found for $period.");
+          final data = _getStats(state);
+          if (data.isEmpty) return _errorCard("No mood data for $period.");
+
+          final moodCount = <String, int>{};
+          for (var stat in data) {
+            moodCount[stat.mood] = (moodCount[stat.mood] ?? 0) + stat.count;
           }
 
-          return SingleChildScrollView(
-            child: Column(
+          return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: ListView(
+              key: ValueKey(period),
+              padding: const EdgeInsets.all(16),
               children: [
-                if (period == 'weekly') _buildLastVisitCard(data),
-                _buildStatsChart(data),
+                _lastVisitCard(data),
+                const SizedBox(height: 16),
+                _periodSelector(),
+                const SizedBox(height: 16),
+                _thisWeekCard(moodCount),
               ],
             ),
           );
         }
-
         return const SizedBox.shrink();
       },
     );
   }
 
-  Widget _buildLastVisitCard(List<MoodStat> data) {
+  Widget _lastVisitCard(List<MoodStat> stats) {
+    final spots = stats.asMap().entries.map((entry) {
+      return FlSpot(entry.key.toDouble(), entry.value.count.toDouble());
+    }).toList();
+
     return Container(
-      margin: const EdgeInsets.all(16),
+      height: 200,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: const Color(0xFF2C2C2E),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Last Visit\nStatistics...',
-            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          Text(
+            'Last Visit\nStatistics ...',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              height: 1.2,
+            ),
           ),
+          if (stats.isNotEmpty)
+            Text(
+              'Updated: ${_formatDate(stats.last.createdAt)}',
+              style: TextStyle(
+                color: Colors.grey[400],
+                fontSize: 12,
+              ),
+            ),
           const SizedBox(height: 20),
-          SizedBox(
-            height: 120,
+          Expanded(
             child: LineChart(
               LineChartData(
                 gridData: FlGridData(
                   show: true,
                   drawVerticalLine: false,
-                  getDrawingHorizontalLine: (value) => FlLine(
-                    color: Colors.grey.withOpacity(0.3),
-                    strokeWidth: 1,
-                    dashArray: [5, 5],
-                  ),
+                  horizontalInterval: spots.isNotEmpty 
+                      ? (spots.map((e) => e.y).reduce((a, b) => a > b ? a : b) / 4)
+                      : 1,
+                  getDrawingHorizontalLine: (value) {
+                    return FlLine(
+                      color: Colors.grey.withOpacity(0.3),
+                      strokeWidth: 1,
+                      dashArray: [3, 3],
+                    );
+                  },
                 ),
-                titlesData: FlTitlesData(show: false),
+                titlesData: FlTitlesData(
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 20,
+                      getTitlesWidget: (value, meta) {
+                        final index = value.toInt();
+                        if (index >= 0 && index < stats.length && index % 2 == 0) {
+                          return Text(
+                            _formatDate(stats[index].createdAt),
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 8,
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                  ),
+                  leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                ),
                 borderData: FlBorderData(show: false),
                 lineBarsData: [
                   LineChartBarData(
-                    spots: data.take(7).toList().asMap().entries.map(
-                      (entry) => FlSpot(entry.key.toDouble(), entry.value.count.toDouble())
-                    ).toList(),
+                    spots: spots,
                     isCurved: true,
                     color: Colors.red,
                     barWidth: 3,
-                    dotData: FlDotData(show: true),
+                    isStrokeCapRound: true,
+                    dotData: FlDotData(
+                      show: true,
+                      getDotPainter: (spot, percent, barData, index) {
+                        return FlDotCirclePainter(
+                          radius: 4,
+                          color: Colors.red,
+                          strokeWidth: 0,
+                        );
+                      },
+                    ),
+                    belowBarData: BarAreaData(show: false),
                   ),
                 ],
-                lineTouchData: LineTouchData(enabled: false),
+                minX: 0,
+                maxX: (spots.length - 1).toDouble(),
+                minY: 0,
+                maxY: spots.isNotEmpty 
+                    ? spots.map((e) => e.y).reduce((a, b) => a > b ? a : b) + 1
+                    : 5,
               ),
             ),
           ),
@@ -94,163 +160,211 @@ class MoodStatisticsBodyView extends StatelessWidget {
     );
   }
 
-  Widget _buildStatsChart(List<MoodStat> data) {
+  Widget _periodSelector() {
+    const periods = ['This Week', 'This Month', 'This Year'];
+    final periodKeys = ['weekly', 'monthly', 'yearly'];
+    
     return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 2))],
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(12),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '${period[0].toUpperCase()}${period.substring(1)}\nStatistics..',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 24),
-          Row(
-            children: [
-              SizedBox(
-                width: 50,
-                height: 240,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: ['Excellent', 'Good', 'Fair', 'Poor', 'Worst']
-                      .map((label) => Text(label, style: TextStyle(fontSize: 12, color: Colors.grey)))
-                      .toList(),
+      child: Row(
+        children: List.generate(periods.length, (index) {
+          final selected = periodKeys[index] == period;
+          return Expanded(
+            child: GestureDetector(
+              onTap: () => onPeriodChange(periodKeys[index]),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                decoration: BoxDecoration(
+                  color: selected ? Colors.white : Colors.transparent,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: selected ? [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ] : null,
                 ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: SizedBox(
-                  height: 240,
-                  child: BarChart(
-                    BarChartData(
-                      alignment: BarChartAlignment.spaceAround,
-                      maxY: _getMaxY(data),
-                      barTouchData: BarTouchData(
-                        enabled: true,
-                        touchTooltipData: BarTouchTooltipData(
-                          getTooltipColor: (_) => Colors.black87,
-                          getTooltipItem: (group, _, rod, __) {
-                            final mood = data[group.x.toInt()].mood;
-                            return BarTooltipItem(
-                              '$mood: ${rod.toY.toInt()}',
-                              const TextStyle(color: Colors.white),
-                            );
-                          },
-                        ),
-                      ),
-                      titlesData: FlTitlesData(
-                        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                        leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: (value, _) {
-                              final index = value.toInt();
-                              if (index < data.length) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    _getBottomLabel(data[index]),
-                                    style: const TextStyle(fontSize: 11, color: Colors.grey),
-                                  ),
-                                );
-                              }
-                              return const SizedBox.shrink();
-                            },
-                          ),
-                        ),
-                      ),
-                      gridData: FlGridData(
-                        show: true,
-                        drawVerticalLine: false,
-                        getDrawingHorizontalLine: (value) => FlLine(
-                          color: Colors.grey.withOpacity(0.3),
-                          strokeWidth: 1,
-                          dashArray: [5, 5],
-                        ),
-                      ),
-                      borderData: FlBorderData(show: false),
-                      barGroups: data.asMap().entries.map((entry) => BarChartGroupData(
-                        x: entry.key,
-                        barRods: [
-                          BarChartRodData(
-                            toY: entry.value.count.toDouble(),
-                            width: 16,
-                            borderRadius: BorderRadius.circular(8),
-                            color: const Color(0xFF6C5CE7),
-                          ),
-                        ],
-                      )).toList(),
+                child: Center(
+                  child: Text(
+                    periods[index],
+                    style: TextStyle(
+                      color: selected ? Colors.black : Colors.grey[600],
+                      fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
+                      fontSize: 14,
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+          );
+        }),
       ),
     );
   }
 
-  Widget _buildErrorCard(String message) {
+  Widget _thisWeekCard(Map<String, int> moodCount) {
+    final moods = moodCount.keys.toList();
+    final maxValue = moodCount.values.isNotEmpty 
+        ? moodCount.values.reduce((a, b) => a > b ? a : b).toDouble() + 2
+        : 10;
+    
     return Container(
-      margin: const EdgeInsets.all(20),
-      padding: const EdgeInsets.all(28),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.grey[100],
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.insert_chart_outlined, color: Colors.grey, size: 48),
-          const SizedBox(height: 12),
-          Text(message, style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.w500)),
+          const Text(
+            'This Week\nStatistics ..',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              height: 1.2,
+            ),
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            height: 200,
+            child: BarChart(
+              BarChartData(
+                alignment: BarChartAlignment.spaceAround,
+                gridData: FlGridData(
+                  show: true,
+                  drawVerticalLine: false,
+                  horizontalInterval: maxValue / 5,
+                  getDrawingHorizontalLine: (value) {
+                    return FlLine(
+                      color: Colors.grey.withOpacity(0.3),
+                      strokeWidth: 1,
+                      dashArray: [3, 3],
+                    );
+                  },
+                ),
+                titlesData: FlTitlesData(
+                  rightTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 60,
+                      getTitlesWidget: (value, meta) {
+                        final labels = ['Worst', 'Poor', 'Fair', 'Good', 'Excellent'];
+                        final step = maxValue / 5;
+                        final index = (value / step).round();
+                        if (index >= 0 && index < labels.length) {
+                          return Text(
+                            labels[index],
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 12,
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                  ),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        final index = value.toInt();
+                        if (index >= 0 && index < moods.length) {
+                          return Text(
+                            moods[index],
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 10,
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                  ),
+                  leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                ),
+                borderData: FlBorderData(show: false),
+                barGroups: moods.asMap().entries.map((entry) {
+                  final mood = entry.value;
+                  final count = moodCount[mood]!.toDouble();
+                  return BarChartGroupData(
+                    x: entry.key,
+                    barRods: [
+                      BarChartRodData(
+                        toY: count,
+                        color: _moodColor(mood),
+                        width: 20,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ],
+                  );
+                }).toList(),
+              ),
+              swapAnimationDuration: const Duration(milliseconds: 600),
+              swapAnimationCurve: Curves.easeInOut,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  double _getMaxY(List<MoodStat> data) {
-    final max = data.map((s) => s.count).fold<int>(0, (a, b) => a > b ? a : b);
-    return (max < 5 ? 5 : max + 1).toDouble();
+  Widget _errorCard(String message) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: Colors.grey),
+            const SizedBox(height: 12),
+            Text(message, style: const TextStyle(color: Colors.grey)),
+          ],
+        ),
+      ),
+    );
   }
 
-  String _getBottomLabel(MoodStat stat) {
-    switch (period) {
-      case 'weekly':
-        const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-        return labels[(stat.createdAt.weekday - 1) % 7];
-      case 'daily':
-        final hour = stat.createdAt.hour;
-        if (hour < 6) return 'Night';
-        if (hour < 12) return 'Morning';
-        if (hour < 18) return 'Afternoon';
-        return 'Evening';
-      case 'monthly':
-        return '${stat.createdAt.day}/${stat.createdAt.month}';
-      case 'yearly':
-        return '${stat.createdAt.month}';
+  Color _moodColor(String mood) {
+    switch (mood.toLowerCase()) {
+      case 'happy':
+        return Colors.yellow[700]!;
+      case 'sad':
+        return Colors.blue[300]!;
+      case 'angry':
+        return Colors.red[300]!;
+      case 'neutral':
+        return Colors.grey[400]!;
+      case 'fear':
+        return Colors.purple[300]!;
+      case 'surprise':
+        return Colors.orange[300]!;
       default:
-        return stat.mood;
+        return AppColors.primary;
     }
   }
 
-  List<MoodStat> _getStatsByPeriod(MoodStatsLoaded state) {
-    switch (period) {
-      case 'daily': return state.dailyStats;
-      case 'weekly': return state.weeklyStats;
-      case 'monthly': return state.monthlyStats;
-      case 'yearly': return state.yearlyStats;
-      default: return [];
-    }
+  String _formatDate(DateTime date) {
+    return '${date.day}/${date.month.toString().padLeft(2, '0')}';
+  }
+
+  List<MoodStat> _getStats(MoodStatsLoaded state) {
+    return switch (period) {
+      'daily' => state.dailyStats,
+      'weekly' => state.weeklyStats,
+      'monthly' => state.monthlyStats,
+      'yearly' => state.yearlyStats,
+      _ => [],
+    };
   }
 }

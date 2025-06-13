@@ -20,3 +20,16 @@ class AuthError extends AuthState {
   @override
   List<Object> get props => [message];
 }
+
+
+class AuthLoggedOutLoading extends AuthState {
+  @override
+  List<Object> get props => [];
+}
+
+class AuthLoggedOutSuccess extends AuthState {
+  @override
+  List<Object> get props => [];
+}
+
+

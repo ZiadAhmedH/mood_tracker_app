@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:moodtracker_app/features/auth/domain/usecases/log_out_use_case.dart';
 import 'package:moodtracker_app/features/profile/data/data_source/user_remote_data_source.dart';
 import 'package:moodtracker_app/features/profile/domain/usecases/get_daily_mood_stats.dart';
 import 'package:moodtracker_app/features/profile/domain/usecases/get_weekly_mood_stats.dart';
@@ -71,7 +72,8 @@ Future<void> init() async {
 
   sl.registerLazySingleton(() => SignUpEmailPassUseCase(sl()));
   sl.registerLazySingleton(() => LoginUserUseCase(sl()));
-  sl.registerFactory(() => AuthCubit(sl(), sl()));
+  sl.registerLazySingleton(() => LogOutUseCase(sl()));
+  sl.registerFactory(() => AuthCubit(sl(), sl(), sl()));
 
   // -------------------------------
   // ✅ Profile Feature

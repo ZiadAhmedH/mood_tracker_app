@@ -62,4 +62,30 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left('Unexpected error: ${e.toString()}');
     }
   }
+  
+  @override
+  Future<Either<String, domain.User>> logOut() async {
+  try {
+      final supabaseUser = await authRemote.logOut();
+
+      if (supabaseUser == null) {
+        return Left("Logout failed: No user returned");
+      }
+
+      final user = domain.User(
+        id: supabaseUser.id,
+        email: supabaseUser.email ?? '',
+        fullName: supabaseUser.userMetadata?['full_name'] ?? '',
+        phone: supabaseUser.phone ?? '',
+        avatarUrl: supabaseUser.userMetadata?['avatar_url'] ?? '',
+        createdAt: DateTime.now().toUtc().toIso8601String(),
+      );
+
+      return Right(user);
+    } on AuthException catch (e) {
+      return Left('Logout error: ${e.message}');
+    } catch (e) {
+      return Left('Unexpected error: ${e.toString()}');
+    }
+  }
 }

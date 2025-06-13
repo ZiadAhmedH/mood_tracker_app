@@ -106,7 +106,7 @@ class FeelingBodyView extends StatelessWidget {
                 height: 70,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, TreatmentSuggestionView.routeName);
+                    Navigator.pushNamed(context, TreatmentSuggestionView.routeName ,  arguments: {'userFeeling': userFeeling},);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: themeColor,

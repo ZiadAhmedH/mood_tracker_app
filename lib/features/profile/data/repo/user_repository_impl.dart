@@ -95,6 +95,10 @@ class UserRepositoryImpl implements UserRepository {
           })
           .select()
           .single();
+       
+
+      print('Mood saved successfully: $response');
+
 
       return Right(
         MoodStat(
@@ -102,7 +106,8 @@ class UserRepositoryImpl implements UserRepository {
           count: 1,
           createdAt: DateTime.parse(response['created_at']),
         ),
-      );
+               );
+
     } catch (e) {
       return Left(ServerFailure("Failed to save mood: ${e.toString()}"));
     }

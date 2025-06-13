@@ -8,6 +8,8 @@ abstract class AuthRemoteDataSource {
     required String fullName,
   });
   Future<User?> signIn(String email, String password);
+  // logout
+  Future<User?> logOut();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -108,5 +110,13 @@ await localDataSource.cacheUserData(
     final session = client.auth.currentSession;
     print('Current user: ${session?.user}');
     return session?.user;
+  }
+  
+  @override
+  Future<User?> logOut() async {
+    final user = client.auth.currentUser;
+    await client.auth.signOut();
+    await localDataSource.clearUserData();
+    return user;
   }
 }

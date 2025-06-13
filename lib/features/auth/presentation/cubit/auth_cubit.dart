@@ -1,16 +1,15 @@
 import 'package:bloc/bloc.dart';
-import 'package:moodtracker_app/core/get_it.dart';
-import 'package:moodtracker_app/features/auth/data/repository/auth_local_data_source_impl.dart';
 import 'package:moodtracker_app/features/auth/domain/usecases/email_pass_sign_up.dart';
+import 'package:moodtracker_app/features/auth/domain/usecases/log_out_use_case.dart';
 import 'package:moodtracker_app/features/auth/domain/usecases/login_user_use_case.dart';
 import 'package:moodtracker_app/features/auth/presentation/cubit/auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final SignUpEmailPassUseCase signUpUseCase;
   final LoginUserUseCase loginUseCase;
-  final AuthLocalDataSource _authLocalDataSource = sl<AuthLocalDataSource>();
+  final LogOutUseCase logOutUseCase;
 
-  AuthCubit(this.signUpUseCase, this.loginUseCase) : super(AuthInitial());
+  AuthCubit(this.signUpUseCase, this.loginUseCase,this.logOutUseCase) : super(AuthInitial());
 
   Future<void> signUp({
     required String email,
@@ -49,6 +48,19 @@ class AuthCubit extends Cubit<AuthState> {
       (failure) => emit(AuthError(failure)),
       (user) async {
         emit(AuthSuccess());
+      },
+    );
+  }
+
+  Future<void> logOut() async {
+    emit(AuthLoggedOutLoading());
+
+    final result = await logOutUseCase();
+
+    result.fold(
+      (failure) => emit(AuthError(failure as String)),
+      (user) async {
+        emit(AuthLoggedOutSuccess());
       },
     );
   }

@@ -7,7 +7,10 @@ import 'package:moodtracker_app/features/suggestion_treatment/widgets/suggestion
 
 class TreatmentSuggestionView extends StatelessWidget {
   static const String routeName = '/treatment_suggestion';
-  const TreatmentSuggestionView({super.key});
+
+    final String userFeeling;
+
+  const TreatmentSuggestionView({super.key, required this.userFeeling});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class TreatmentSuggestionView extends StatelessWidget {
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 5),
-          child: SuggestionBodyView(),
+          child: SuggestionBodyView(mood:userFeeling ,),
         ),
       ),
     );
