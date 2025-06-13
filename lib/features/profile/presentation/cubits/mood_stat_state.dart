@@ -12,6 +12,14 @@ class MoodStatsInitial extends MoodStatsState {}
 
 class MoodStatsLoading extends MoodStatsState {}
 
+class MoodStatsPeriodSelect extends MoodStatsState {
+  final String period;
+  const MoodStatsPeriodSelect(this.period);
+  @override
+  List<Object?> get props => [period];
+}
+
+
 class MoodStatsSaving extends MoodStatsState {}
 
 class MoodStatsSaved extends MoodStatsState {

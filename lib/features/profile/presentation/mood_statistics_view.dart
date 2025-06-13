@@ -6,6 +6,8 @@ import 'package:moodtracker_app/features/profile/presentation/widgets/mood_stati
 
 class MoodStatisticsView extends StatelessWidget {
   static const String routeName = '/mood-statistics';
+  static const _primaryColor = Color(0xFF9616FF);
+
   const MoodStatisticsView({super.key});
 
   @override
@@ -35,56 +37,61 @@ class _MoodStatisticsScaffoldState extends State<_MoodStatisticsScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
+        backgroundColor: MoodStatisticsView._primaryColor,
         title: const Text('Mood Statistics'),
         centerTitle: true,
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              'Select Period:',
-              style: Theme.of(context).textTheme.titleMedium,
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(12),
             ),
-          ),
-          const SizedBox(height: 8),
-          SizedBox(
-            height: 50,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: _periods.length,
-              itemBuilder: (context, index) {
-                final period = _periods[index];
+            padding: const EdgeInsets.all(8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: _periods.map((period) {
                 final selected = period == _selectedPeriod;
-
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                  child: ChoiceChip(
-                    label: Text(
-                      period.toUpperCase(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: selected ? Colors.white : Colors.black,
+                return Expanded(
+                  child: GestureDetector(
+                    onTap: () => setState(() => _selectedPeriod = period),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        color: selected ? MoodStatisticsView._primaryColor : Colors.transparent,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          period.toUpperCase(),
+                          style: TextStyle(
+                            color: selected ? Colors.white : Colors.black87,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
                     ),
-                    selectedColor: Theme.of(context).primaryColor,
-                    backgroundColor: Colors.grey[200],
-                    selected: selected,
-                    onSelected: (_) {
-                      setState(() => _selectedPeriod = period);
-                    },
                   ),
                 );
-              },
+              }).toList(),
             ),
           ),
           const SizedBox(height: 16),
           Expanded(
-            child: MoodStatisticsBodyView(period: _selectedPeriod),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              switchInCurve: Curves.easeIn,
+              switchOutCurve: Curves.easeOut,
+              child: MoodStatisticsBodyView(key: ValueKey(_selectedPeriod), period: _selectedPeriod,),
+            ),
           ),
         ],
       ),

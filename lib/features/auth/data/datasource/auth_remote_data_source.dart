@@ -97,9 +97,7 @@ await localDataSource.cacheUserData(
       .maybeSingle();
 
   print('[DB FETCH] userId: $userId, result: $response');
-
   
-
   print('[DB FETCH] Full name: ${response!['full_name']}');
 
   return response['full_name'];

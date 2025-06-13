@@ -21,6 +21,12 @@ class MoodStatsCubit extends Cubit<MoodStatsState> {
     required this.saveUserMood,
   }) : super(MoodStatsInitial());
 
+
+
+  void selectPeriod(String period) {
+    emit(MoodStatsPeriodSelect(period));
+  }
+
  Future<void> loadStats() async {
   emit(MoodStatsLoading());
 
@@ -73,4 +79,9 @@ class MoodStatsCubit extends Cubit<MoodStatsState> {
       (_) => emit(MoodStatsSaved("Mood saved successfully!")),
     );
   }
+
+
+
+
+
 }
