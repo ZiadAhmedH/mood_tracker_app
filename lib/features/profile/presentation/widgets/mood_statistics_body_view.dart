@@ -360,7 +360,6 @@ class MoodStatisticsBodyView extends StatelessWidget {
 
   List<MoodStat> _getStats(MoodStatsLoaded state) {
     return switch (period) {
-      'daily' => state.dailyStats,
       'weekly' => state.weeklyStats,
       'monthly' => state.monthlyStats,
       'yearly' => state.yearlyStats,

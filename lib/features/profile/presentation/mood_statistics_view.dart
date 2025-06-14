@@ -32,7 +32,7 @@ class _MoodStatisticsScaffold extends StatefulWidget {
 }
 
 class _MoodStatisticsScaffoldState extends State<_MoodStatisticsScaffold> {
-  String _selectedPeriod = 'daily';
+  String _selectedPeriod = 'weekly';
 
   @override
   Widget build(BuildContext context) {

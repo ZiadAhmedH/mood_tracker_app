@@ -1,82 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moodtracker_app/features/home/Presentation/main_view.dart';
-import 'package:moodtracker_app/features/profile/presentation/cubits/mood_stat_cubit.dart';
+import 'package:moodtracker_app/core/utils/app_colors.dart';
+import 'package:moodtracker_app/features/suggestion_treatment/rate_mood_view.dart';
+import 'package:moodtracker_app/features/suggestion_treatment/videos/presentation/videos_view.dart';
+
 import '../quran/presentation/quran_view/quran_view.dart';
 
 class SuggestionBodyView extends StatelessWidget {
   final String mood;
+
   const SuggestionBodyView({super.key, required this.mood});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: ListView(
-            children: [
-              buildOption(context, "assets/images/quran.png", isQuran: true),
-              buildOption(context, "assets/images/book.png", isBook: true),
-              buildOption(
-                context,
-                "assets/images/videos.png",
-                isVideo: true,
-              ), 
-              buildOption(
-                context,
-                "assets/images/broadcast.png",
-                isBroadcast: true,
-              ),
-              buildOption(context, "assets/images/relaxation.png"),
-            ],
+    return WillPopScope(
+      onWillPop: () async {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Please tap 'End Session' to exit."),
+            duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: AppColors.primaryLight,
           ),
-        ),
-        SizedBox(height: 16),
-        SizedBox(
-          width: 382,
-          height: 70,
-          child: ElevatedButton(
-            onPressed: () async {
-  context.read<MoodStatsCubit>().saveUserMood(
-    mood: mood,
-    createdAt: DateTime.now(),
-  );
-
-  final snackBar = SnackBar(
-    content: Text("Your mood has been saved successfully"),
-    duration: Duration(seconds: 2),
-  );
-
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-  await Future.delayed(Duration(seconds: 2));
-
-  Navigator.pushNamedAndRemoveUntil(
-    context,
-    MainView.routeName,
-    (route) => false,
-  );
-},
-
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFF9616FF),
-              padding: EdgeInsets.symmetric(vertical: 24, horizontal: 32),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
+        );
+        return false; // Prevent actual pop
+      },
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              children: [
+                buildOption(context, "assets/images/quran.png", isQuran: true),
+                buildOption(context, "assets/images/book.png", isBook: true),
+                buildOption(context, "assets/images/videos.png", isVideo: true),
+                buildOption(context, "assets/images/broadcast.png",isBroadcast: true,),
+                buildOption(context, "assets/images/relaxation.png"),
+              ],
             ),
-            child: Text(
-              "End Session",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: 382,
+            height: 70,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, RateMoodView.routeName ,                          
+                arguments: {'userFeeling': mood},
+);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF9616FF),
+                padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 32),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: const Text(
+                "End Session",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
-        ),
-        SizedBox(height: 21),
-      ],
+          const SizedBox(height: 21),
+        ],
+      ),
     );
   }
 
@@ -94,11 +85,13 @@ class SuggestionBodyView extends StatelessWidget {
           Navigator.pushNamed(context, QuranView.routeName);
         } else if (isBook) {
         } else if (isVideo) {
+           Navigator.pushNamed(context, VideosView.routeName, arguments: {'mood': mood});
         } else if (isBroadcast) {
+          // Broadcast logic
         }
       },
       child: Container(
-        margin: EdgeInsets.only(bottom: 16),
+        margin: const EdgeInsets.only(bottom: 16),
         height: 120,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),

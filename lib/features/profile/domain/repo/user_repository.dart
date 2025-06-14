@@ -6,7 +6,6 @@ import '../entities/user.dart';
 abstract class UserRepository {
   Future<Either<Failure, User>> getCachedUser();
    Future<Either<Failure, MoodStat>> saveUserMood({required String mood,required DateTime createdAt, });
-  Future<Either<Failure, List<MoodStat>>> getDailyMoodStats();
   Future<Either<Failure, List<MoodStat>>> getWeeklyMoodStats();
   Future<Either<Failure, List<MoodStat>>> getMonthlyMoodStats();
   Future<Either<Failure, List<MoodStat>>> getYearlyMoodStats();

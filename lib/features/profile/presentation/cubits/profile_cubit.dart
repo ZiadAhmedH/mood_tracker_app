@@ -6,7 +6,6 @@ import 'package:moodtracker_app/features/profile/presentation/cubits/profile_sta
 import '../../../auth/data/models/user_model.dart';
 
 
-// profile_cubit.dart
 class ProfileCubit extends Cubit<ProfileState> {
   final AuthLocalDataSource localDataSource;
 

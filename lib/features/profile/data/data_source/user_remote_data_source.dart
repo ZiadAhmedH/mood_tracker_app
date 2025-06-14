@@ -2,7 +2,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/mood_stat_model.dart';
 
 abstract class UserRemoteDataSource {
-  Future<List<MoodStatModel>> getDailyMoodStats(String userId);
   Future<List<MoodStatModel>> getWeeklyMoodStats(String userId);
   Future<List<MoodStatModel>> getMonthlyMoodStats(String userId);
   Future<List<MoodStatModel>> getYearlyMoodStats(String userId);
@@ -18,22 +17,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
   UserRemoteDataSourceImpl(this.client);
 
-  @override
-  Future<List<MoodStatModel>> getDailyMoodStats(String userId) async {
-    try {
-      final response = await client.rpc('get_daily_mood_counts');
-      print('📅 Daily Mood Stats Raw Response: $response');
-
-      if (response == null || (response as List).isEmpty) return [];
-
-      return response
-          .map((e) => MoodStatModel.fromJson(e as Map<String, dynamic>))
-          .toList();
-    } catch (e) {
-      print('❌ Error fetching daily stats: $e');
-      throw Exception('Failed to load daily mood stats: $e');
-    }
-  }
+ 
 
   @override
   Future<List<MoodStatModel>> getWeeklyMoodStats(String userId) async {

@@ -1,7 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:moodtracker_app/features/auth/domain/usecases/log_out_use_case.dart';
 import 'package:moodtracker_app/features/profile/data/data_source/user_remote_data_source.dart';
-import 'package:moodtracker_app/features/profile/domain/usecases/get_daily_mood_stats.dart';
 import 'package:moodtracker_app/features/profile/domain/usecases/get_weekly_mood_stats.dart';
 import 'package:moodtracker_app/features/profile/domain/usecases/get_yearly_mood_stats.dart';
 import 'package:moodtracker_app/features/profile/domain/usecases/save_use_mood.dart';
@@ -109,7 +108,6 @@ Future<void> init() async {
 
   // You can register more dependencies here as needed
 
-sl.registerLazySingleton(() => GetDailyMoodStatsUseCase(sl()));
 sl.registerLazySingleton(() => GetWeeklyMoodStatsUseCase(sl()));
 sl.registerLazySingleton(() => GetMonthlyMoodStatsUseCase(sl()));
 sl.registerLazySingleton(() => GetYearlyMoodStatsUseCase(sl()));
@@ -119,7 +117,6 @@ sl.registerLazySingleton(() => SaveUserMoodUseCase(sl()));
    
 
 sl.registerFactory(() => MoodStatsCubit(
-  getDailyMoodStats: sl(),
   getWeeklyMoodStats: sl(),
   getMonthlyMoodStats: sl(),
   getYearlyMoodStats: sl(),

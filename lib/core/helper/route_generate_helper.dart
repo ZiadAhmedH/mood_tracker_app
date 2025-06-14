@@ -12,7 +12,9 @@ import 'package:moodtracker_app/features/auth/presentation/sign_up_view.dart';
 import 'package:moodtracker_app/features/onBoarding/onboarding_screen1.dart';
 import 'package:moodtracker_app/features/home/Presentation/main_view.dart';
 import 'package:moodtracker_app/features/suggestion_treatment/quran/presentation/quran_view/quran_view.dart';
+import 'package:moodtracker_app/features/suggestion_treatment/rate_mood_view.dart';
 import 'package:moodtracker_app/features/suggestion_treatment/suggestion_view.dart';
+import 'package:moodtracker_app/features/suggestion_treatment/videos/presentation/videos_view.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings settings) {
   switch(settings.name) {
@@ -82,7 +84,22 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const QuranView());
 
     case MoodStatisticsView.routeName:
-      return MaterialPageRoute(builder: (context) => const MoodStatisticsView());    
+      return MaterialPageRoute(builder: (context) => const MoodStatisticsView());  
+
+
+
+    case RateMoodView.routeName:
+      final args = settings.arguments as Map<String, dynamic>?;
+      return MaterialPageRoute(builder: (context) => RateMoodView(
+         userFeeling: args?['userFeeling'] ?? '',
+      ));
+    
+    case VideosView.routeName:
+      final args = settings.arguments as Map<String, dynamic>?;
+      return MaterialPageRoute(builder: (context) => VideosView(
+        mood: args?['mood'] ?? '',
+      ));
+
     default:
       return MaterialPageRoute(
         builder: (context) => const Scaffold(

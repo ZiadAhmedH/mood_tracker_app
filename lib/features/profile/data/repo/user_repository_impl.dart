@@ -54,10 +54,7 @@ class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, List<MoodStat>>> getDailyMoodStats() {
-    return _getMoodStats(remoteDataSource.getDailyMoodStats);
-  }
+ 
 
   @override
   Future<Either<Failure, List<MoodStat>>> getWeeklyMoodStats() {

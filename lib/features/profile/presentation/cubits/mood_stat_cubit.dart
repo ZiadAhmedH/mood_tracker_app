@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moodtracker_app/features/profile/domain/usecases/get_daily_mood_stats.dart';
 import 'package:moodtracker_app/features/profile/domain/usecases/get_monthly_mood_stats.dart';
 import 'package:moodtracker_app/features/profile/domain/usecases/get_weekly_mood_stats.dart';
 import 'package:moodtracker_app/features/profile/domain/usecases/get_yearly_mood_stats.dart';
@@ -7,14 +6,12 @@ import 'package:moodtracker_app/features/profile/domain/usecases/save_use_mood.d
 import 'package:moodtracker_app/features/profile/presentation/cubits/mood_stat_state.dart';
 
 class MoodStatsCubit extends Cubit<MoodStatsState> {
-  final GetDailyMoodStatsUseCase getDailyMoodStats;
   final GetWeeklyMoodStatsUseCase getWeeklyMoodStats;
   final GetMonthlyMoodStatsUseCase getMonthlyMoodStats;
   final GetYearlyMoodStatsUseCase getYearlyMoodStats;
   final SaveUserMoodUseCase saveUserMood;
 
   MoodStatsCubit({
-    required this.getDailyMoodStats,
     required this.getWeeklyMoodStats,
     required this.getMonthlyMoodStats,
     required this.getYearlyMoodStats,
@@ -30,13 +27,7 @@ class MoodStatsCubit extends Cubit<MoodStatsState> {
  Future<void> loadStats() async {
   emit(MoodStatsLoading());
 
-  final dailyResult = await getDailyMoodStats();
-  if (dailyResult.isLeft()) {
-    emit(MoodStatsError("$dailyResult"));
-    return;
-  }
-  final dailyStats = dailyResult.getOrElse(() => []);
-
+ 
   final weeklyResult = await getWeeklyMoodStats();
   if (weeklyResult.isLeft()) {
     emit(MoodStatsError("$weeklyResult"));
@@ -59,7 +50,6 @@ class MoodStatsCubit extends Cubit<MoodStatsState> {
   final yearlyStats = yearlyResult.getOrElse(() => []);
 
   emit(MoodStatsLoaded(
-    dailyStats: dailyStats,
     weeklyStats: weeklyStats,
     monthlyStats: monthlyStats,
     yearlyStats: yearlyStats,

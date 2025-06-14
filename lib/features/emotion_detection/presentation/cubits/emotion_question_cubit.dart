@@ -48,13 +48,12 @@ class EmotionQuestionCubit extends Cubit<EmotionQuestionState> {
   }
 
   String getMoodFromScore(int score) {
-  if (score >= 20) return 'Surprise: 🤯';
-  if (score >= 15) return 'Happy 😊';
-  if (score >= 10) return 'Neutral 😐';
-  if (score >= 5) return 'Fear 😨';
-  if (score >= 0) return 'Disgust 😖';
-  if (score >= -5) return 'Sad 😔';
-  if (score < -5) return 'Angry 😡';
+  if (score >= 15) return 'happy';
+  if (score >= 10) return 'naturally';
+  if (score >= 5) return 'fear';
+  if (score >= 0) return 'disgust';
+  if (score >= -5) return 'sad';
+  if (score < -5) return 'angry';
   return 'Unknown 🤷‍♂️';
 }
 

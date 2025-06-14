@@ -32,20 +32,18 @@ class MoodStatsSaved extends MoodStatsState {
 }
 
 class MoodStatsLoaded extends MoodStatsState {
-  final List<MoodStat> dailyStats;
   final List<MoodStat> weeklyStats;
   final List<MoodStat> monthlyStats;
   final List<MoodStat> yearlyStats;
 
   const MoodStatsLoaded({
-    required this.dailyStats,
     required this.weeklyStats,
     required this.monthlyStats,
     required this.yearlyStats,
   });
 
   @override
-  List<Object?> get props => [dailyStats, weeklyStats, monthlyStats, yearlyStats];
+  List<Object?> get props => [ weeklyStats, monthlyStats, yearlyStats];
 }
 
 class MoodStatsError extends MoodStatsState {
