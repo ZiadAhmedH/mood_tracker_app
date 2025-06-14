@@ -34,7 +34,7 @@ class MoodTrackerApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff6C63FF)),
       ),
       initialRoute: SplashView.routeName,
-      onGenerateRoute: onGenerateRoute,
+      onGenerateRoute: onGenerateRoute
     );
   }
 }
