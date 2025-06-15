@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:moodtracker_app/core/constants/logo_assets.dart';
+import 'package:moodtracker_app/core/utils/constants/logo_assets.dart';
 import 'package:tflite_v2/tflite_v2.dart';
 
 class EmotionModelService {

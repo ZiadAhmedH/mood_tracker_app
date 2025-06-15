@@ -38,6 +38,7 @@ dependencies:
   fl_chart: ^1.0.0
   youtube_player_flutter: ^9.1.1
   youtube_explode_dart: ^2.4.2
+  syncfusion_flutter_pdfviewer: ^29.2.10
 
 
 dev_dependencies:
@@ -49,6 +50,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/pdfs/
     - assets/icons/
     - assets/images/
     - assets/fonts/
@@ -58,6 +60,12 @@ flutter:
     - assets/models/text/emotion_model_text.tflite
     - assets/lottie/camera_loading.json
     - assets/models/text/vocab.json
+    - assets/animations/
+    - assets/audio/step.mp3
+    - assets/audio/steps.mp3
+    - assets/audio/breathing.mp3
+    - assets/audio/breathing.wav
+    - assets/audio/breathing1.mp3
     - .env
 
 flutter_assets:

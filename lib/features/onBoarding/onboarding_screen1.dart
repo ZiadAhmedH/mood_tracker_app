@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:moodtracker_app/core/constants/logo_assets.dart';
+import 'package:moodtracker_app/core/utils/constants/logo_assets.dart';
 import 'package:moodtracker_app/core/helper/shared_keys.dart';
 import 'package:moodtracker_app/core/helper/shared_prefrence.dart';
 import 'package:moodtracker_app/features/auth/presentation/login_view.dart';

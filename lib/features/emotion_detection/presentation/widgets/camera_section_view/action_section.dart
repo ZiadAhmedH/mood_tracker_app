@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:moodtracker_app/core/constants/logo_assets.dart';
+import 'package:moodtracker_app/core/utils/constants/logo_assets.dart';
 import 'package:moodtracker_app/core/utils/app_colors.dart';
 import 'package:moodtracker_app/core/widgets/custem_text_widget.dart';
 import '../../feeling_selection_screen.dart';

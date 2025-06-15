@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:moodtracker_app/core/constants/surah_list.dart';
+import 'package:moodtracker_app/core/utils/constants/surah_list.dart';
 import 'package:moodtracker_app/features/suggestion_treatment/quran/data/models/surah_play_back_model.dart';
 import 'package:moodtracker_app/features/suggestion_treatment/quran/presentation/controller/surah_playback_controller.dart';
 

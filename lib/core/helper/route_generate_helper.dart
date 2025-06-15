@@ -11,8 +11,12 @@ import 'package:moodtracker_app/features/auth/presentation/login_view.dart';
 import 'package:moodtracker_app/features/auth/presentation/sign_up_view.dart';
 import 'package:moodtracker_app/features/onBoarding/onboarding_screen1.dart';
 import 'package:moodtracker_app/features/home/Presentation/main_view.dart';
+import 'package:moodtracker_app/features/suggestion_treatment/books/data/model/book_model.dart';
+import 'package:moodtracker_app/features/suggestion_treatment/books/presentation/book_view.dart';
+import 'package:moodtracker_app/features/suggestion_treatment/books/presentation/widgets/book_reader_view.dart';
 import 'package:moodtracker_app/features/suggestion_treatment/quran/presentation/quran_view/quran_view.dart';
 import 'package:moodtracker_app/features/suggestion_treatment/rate_mood_view.dart';
+import 'package:moodtracker_app/features/suggestion_treatment/relaxtaion/presentation/relaxation_exercises_view.dart';
 import 'package:moodtracker_app/features/suggestion_treatment/suggestion_view.dart';
 import 'package:moodtracker_app/features/suggestion_treatment/videos/presentation/videos_view.dart';
 
@@ -99,8 +103,18 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => VideosView(
         mood: args?['mood'] ?? '',
       ));
+    
 
-    default:
+    case RelaxationExercisesView.routeName:
+      return MaterialPageRoute(builder: (context) => RelaxationExercisesView());
+    
+    case BooksView.routeName:
+      return MaterialPageRoute(builder: (_) => BooksView());
+     case BookReaderView.routeName:
+      final book = settings.arguments as BookModel;
+      return MaterialPageRoute(builder: (_) => BookReaderView(key: UniqueKey()));
+   
+     default:
       return MaterialPageRoute(
         builder: (context) => const Scaffold(
           body: Center(child: Text('No route defined')),

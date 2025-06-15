@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:moodtracker_app/core/constants/logo_assets.dart';
+import 'package:moodtracker_app/core/utils/constants/logo_assets.dart';
 
 import '../../../../core/utils/app_colors.dart';
 

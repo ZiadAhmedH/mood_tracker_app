@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:moodtracker_app/core/utils/app_colors.dart';
+import 'package:moodtracker_app/features/suggestion_treatment/books/presentation/book_view.dart';
 import 'package:moodtracker_app/features/suggestion_treatment/rate_mood_view.dart';
+import 'package:moodtracker_app/features/suggestion_treatment/relaxtaion/presentation/relaxation_exercises_view.dart';
 import 'package:moodtracker_app/features/suggestion_treatment/videos/presentation/videos_view.dart';
 
 import '../quran/presentation/quran_view/quran_view.dart';
@@ -34,7 +36,7 @@ class SuggestionBodyView extends StatelessWidget {
                 buildOption(context, "assets/images/book.png", isBook: true),
                 buildOption(context, "assets/images/videos.png", isVideo: true),
                 buildOption(context, "assets/images/broadcast.png",isBroadcast: true,),
-                buildOption(context, "assets/images/relaxation.png"),
+                buildOption(context, "assets/images/relaxation.png" , isRelaxation: true),
               ],
             ),
           ),
@@ -78,16 +80,21 @@ class SuggestionBodyView extends StatelessWidget {
     bool isBook = false,
     bool isVideo = false,
     bool isBroadcast = false,
+    bool isRelaxation = false,
   }) {
     return GestureDetector(
       onTap: () {
         if (isQuran) {
           Navigator.pushNamed(context, QuranView.routeName);
         } else if (isBook) {
+          Navigator.pushNamed(context, BooksView.routeName);
         } else if (isVideo) {
            Navigator.pushNamed(context, VideosView.routeName, arguments: {'mood': mood});
         } else if (isBroadcast) {
           // Broadcast logic
+        }
+        else if(isRelaxation){
+          Navigator.pushNamed(context, RelaxationExercisesView.routeName);
         }
       },
       child: Container(

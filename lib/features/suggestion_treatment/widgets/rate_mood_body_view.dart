@@ -159,7 +159,7 @@ class RateMoodBodyView extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pop(context); 
                 },
                 child: Text(
                   "Choose Another Treatment",

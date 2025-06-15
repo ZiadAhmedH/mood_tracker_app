@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:moodtracker_app/core/constants/logo_assets.dart';
+import 'package:moodtracker_app/core/utils/constants/logo_assets.dart';
 import 'package:moodtracker_app/core/helper/shared_keys.dart';
 import 'package:moodtracker_app/core/helper/shared_prefrence.dart';
 import 'package:moodtracker_app/core/utils/app_colors.dart';
